@@ -94,6 +94,8 @@
 
 
                 </ul>
+                <div id="loadMore" class="btn btn--full">LOAD MORE</div>
+								<div id="showLess">END</div>
             </div>
 					</div>
 				</div>

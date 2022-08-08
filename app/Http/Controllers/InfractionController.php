@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\InfractionMail;
 use App\Models\Infraction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class InfractionController extends Controller
@@ -64,7 +66,7 @@ class InfractionController extends Controller
             'di' => 'required',
             'jp' => 'required',
             'pelapor_name' => 'required',
-            'foto' => 'image|file|max:3024'
+            'foto' => 'required|image|file|max:3024'
         ];
 
         $message = [
@@ -74,6 +76,7 @@ class InfractionController extends Controller
         ];
 
         $this->validate($request, $rules, $message);
+
 
         $file_photo = $request->file('foto')->store('post-images');
         Infraction::create([
@@ -88,6 +91,21 @@ class InfractionController extends Controller
             'pelapor_name' => $request->pelapor_name,
             
         ]);
+
+        $detail = [
+            'nama' => $request->nama,
+            'alamat' => $request->alamat,
+            'phone' => $request->phone,
+            'di' => $request->di,
+            'kordinat' => $request->kordinat,
+            'jp' => $request->jp,
+            'status' => $request->status,
+            'pelapor_name' => $request->pelapor_name,
+        ];
+
+        $emails = ['sp.dentalcaries@gmail.com', 'ariabghf@gmail.com'];
+
+        Mail::to($emails)->send(new InfractionMail($detail));
 
         return redirect()->route('infraction')->with('success', "User berhasil ditambahkan");
     }

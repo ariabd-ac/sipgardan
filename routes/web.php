@@ -7,6 +7,7 @@ use App\Http\Controllers\ParkingController;
 use App\Http\Controllers\RateController;
 use App\Http\Controllers\SlotController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\InfractionController;
 
 use Rawilk\Printing\Receipts\ReceiptPrinter;
@@ -27,6 +28,10 @@ use Rawilk\Printing\Receipts\ReceiptPrinter;
 // });
 
 Auth::routes();
+
+
+// email
+Route::get('/send-email', [App\Http\Controllers\MailController::class, 'sendEmail']);
 
 
 // user

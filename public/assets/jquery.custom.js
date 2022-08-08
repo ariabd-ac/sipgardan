@@ -114,7 +114,7 @@ $(document).ready(function () {
 		}); 
 		$(".posts li").hide();	
 		var size_li = $(".posts li").length;
-		var nrposts = 4;
+		var nrposts = 10;
 		$('.posts li:lt('+nrposts+')').show();
 		$('#loadMore').click(function () {
 			nrposts= (nrposts+1 <= size_li) ? nrposts+1 : size_li;

@@ -139,7 +139,7 @@
                     <div class="error-message" style="color: red;text-transform: capitalize">
                         {{ $message }}
                     </div>
-                  @enderror
+                    @enderror
 
                     <div class="form_row">
                       <label>Nama Pelapor:</label>
