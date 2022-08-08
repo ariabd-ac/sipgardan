@@ -75,6 +75,9 @@ function changeLink() {
         case "user":
             activeIndex = 3;
             break;
+        case "admin_infractions":
+            activeIndex = 4;
+            break;
 
         default:
             activeIndex = 0;

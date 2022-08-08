@@ -7,6 +7,7 @@ use App\Http\Controllers\ParkingController;
 use App\Http\Controllers\RateController;
 use App\Http\Controllers\SlotController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\InfractionController;
 
 use Rawilk\Printing\Receipts\ReceiptPrinter;
 
@@ -27,11 +28,27 @@ use Rawilk\Printing\Receipts\ReceiptPrinter;
 
 Auth::routes();
 
-Route::get('/', function () {
-  return view('welcome');
-});
 
-Route::get('/login', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// user
+Route::get('/infractions', [App\Http\Controllers\InfractionController::class, 'index'])->name('infraction');
+Route::get('/infraction/{id}',[App\Http\Controllers\InfractionController::class, 'show'])->name('infraction.show');
+Route::get('/add',[App\Http\Controllers\InfractionController::class, 'create'])->name('infraction.create');
+Route::post('/infractions/store',[App\Http\Controllers\InfractionController::class, 'store'])->name('infraction.store');
+
+// admin
+Route::get('/admin_infractions', [App\Http\Controllers\InfractionController::class, 'index_admin'])->name('admin_infraction');
+Route::get('/admin_infractions/create', [App\Http\Controllers\InfractionController::class, 'create_admin'])->name('admin_infraction.create');
+Route::post('/admin_infractions/store',[App\Http\Controllers\InfractionController::class, 'store_admin'])->name('admin_infraction.store');
+Route::get('/admin_infractions/{id}', [App\Http\Controllers\InfractionController::class, 'show_admin'])->name('admin_infraction.show');
+Route::get('/admin_infractions/edit/{id}', [App\Http\Controllers\InfractionController::class, 'edit'])->name('admin_infraction.edit');
+Route::delete('/admin_infractions/destroy/{id}', [App\Http\Controllers\InfractionController::class, 'destroy'])->name('admin_infraction.destroy');
+Route::get('/admin_infractions/edit/{id}', [App\Http\Controllers\InfractionController::class, 'edit'])->name('admin_infraction.edit');
+Route::put('/admin_infractions/update/{id}', [App\Http\Controllers\InfractionController::class, 'update'])->name('admin_infraction.update');
+Route::get('/admin_infractions/barcode/{id}', [App\Http\Controllers\InfractionController::class, 'printReceipt'])->name('admin_infraction.print');
+
+
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
 // User

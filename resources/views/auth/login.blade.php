@@ -66,7 +66,7 @@
                     {{-- <h3>New here ? </h3>
                     <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corrupti quam quis rerum!</p> --}}
                     {{-- <button class="btn transparent" id="sign-up-btn">Sign up</button> --}}
-                    <h3>Welcome to Parking Apps</h3>
+                    <h3>Welcome to SIP-GARDAN</h3>
                 </div>
                 <img src="{{ asset('img\login-img.svg') }}" class="image" alt="">
             </div>
