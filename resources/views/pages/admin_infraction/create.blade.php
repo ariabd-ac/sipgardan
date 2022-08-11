@@ -126,7 +126,7 @@
                         <div class="input-group" style="width: 40%">
                           <label for="">Foto <span>*</span></label>
                           <div class="input-field @error('foto') error @enderror">
-                              <input type="file" name="foto" value="{{ old('foto') }}">
+                              <input type="file" name="foto" value="">
                               <div class="error-mark @error('foto') error-mark-show @enderror">
                                   <i class="bx bx-x"></i>
                               </div>

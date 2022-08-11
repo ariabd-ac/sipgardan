@@ -81,7 +81,7 @@
 
             <div class="tooltip">
                 <span class="show">Dashboard</span>
-                <span>Parkir</span>
+                <span>Pelanggaran</span>
                 {{-- <span>Tarif</span> --}}
                 <span>Laporan</span>
                 <span>User</span>

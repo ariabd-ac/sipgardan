@@ -32,6 +32,18 @@ Auth::routes();
 
 // email
 Route::get('/send-email', [App\Http\Controllers\MailController::class, 'sendEmail']);
+Route::get('/test', function()
+{
+	$beautymail = app()->make(Snowfire\Beautymail\Beautymail::class);
+	$beautymail->send('emails.infraction', [], function($message)
+	{
+		$message
+			->from('ariabghufron@gmail.com')
+			->to('ariabghf@gmail.com', 'John Smith')
+			->subject('Welcome!');
+	});
+
+});
 
 
 // user

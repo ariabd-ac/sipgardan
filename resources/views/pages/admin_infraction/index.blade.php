@@ -68,8 +68,23 @@
                                     <i style="font-size: 1.7rem" class='bx bx-barcode icon-btn icon-btn-main'onclick="window.location.href='{{ route('admin_infraction.show', $infraction->id) }}'"></i>
 
 
+                                    @if ($infraction->status == 'disposisi')
+                                    <i style="font-size: 1.7rem;
+                                    @role('admin')
+                                    display:none;
+                                    @endrole
+                                    "
+                                        class='bx bx-edit-alt icon-btn icon-btn-edit'onclick="window.location.href='{{ route('admin_infraction.edit', $infraction->id) }}'"></i>
+                                    @endif
+
+                                    @role('admin')
                                     <i style="font-size: 1.7rem"
                                         class='bx bx-edit-alt icon-btn icon-btn-edit'onclick="window.location.href='{{ route('admin_infraction.edit', $infraction->id) }}'"></i>
+                                    @endrole
+
+
+
+
 
                                     @role('admin')
                                     <i style="font-size: 1.7rem" class='bx bx-trash icon-btn icon-btn-trash'onclick="showAlertConfirmation('form-delete-infraction-{{ $infraction->id }}', 'Peringatan', 'Data akan dihapus secara permanen')"></i>

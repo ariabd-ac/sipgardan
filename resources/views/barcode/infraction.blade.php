@@ -174,6 +174,10 @@
                   <td>Kordinat</td>
                   <td>{{ $infraction->kordinat }}</td>
               </tr>
+              <tr>
+                  <td>Foto</td>
+                  <td><img src="{{ asset("storage/". $infraction->foto) }}" alt="" srcset=""></td>
+              </tr>
           </tbody>
         
       </table>   

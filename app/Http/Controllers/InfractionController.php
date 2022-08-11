@@ -7,9 +7,15 @@ use App\Models\Infraction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Snowfire\Beautymail\Beautymail;
 
 class InfractionController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware(['auth']);
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +35,7 @@ class InfractionController extends Controller
     public function index_admin()
     {
         //
-        $infractions = Infraction::get()->sortByDesc("id");
+        $infractions = Infraction::get()->sortByDesc("updated_at");
 
         return view('pages.admin_infraction.index', compact('infractions'));
     }
@@ -66,6 +72,7 @@ class InfractionController extends Controller
             'di' => 'required',
             'jp' => 'required',
             'pelapor_name' => 'required',
+            'kordinat' => 'required',
             'foto' => 'required|image|file|max:3024'
         ];
 
@@ -105,7 +112,26 @@ class InfractionController extends Controller
 
         $emails = ['sp.dentalcaries@gmail.com', 'ariabghf@gmail.com'];
 
-        Mail::to($emails)->send(new InfractionMail($detail));
+        // Mail::to($emails)->send(new InfractionMail($detail));
+        $beautymail = app()->make(Beautymail::class);
+        $beautymail->send('emails.infraction',[
+            'nama' => $request->nama,
+            'alamat' => $request->alamat,
+            'phone' => $request->phone,
+            'di' => $request->di,
+            'kordinat' => $request->kordinat,
+            'jp' => $request->jp,
+            'status' => $request->status,
+            'pelapor_name' => $request->pelapor_name,
+        ], 
+        function($message){
+        $emails = ['idprimadona@gmail.com', 'ariabghf@gmail.com'];
+            $message
+                ->from('ariabghufron@gmail.com')
+                ->to($emails)
+                ->subject('SIP-GARDAN!');
+        }
+    );
 
         return redirect()->route('infraction')->with('success', "User berhasil ditambahkan");
     }
@@ -203,7 +229,11 @@ class InfractionController extends Controller
             'phone' => 'required|min:10',
             'jp' => 'required',
             'pelapor_name' => 'required',
-            'foto' => 'image|file|max:3024'
+            'foto' => 'image|file|max:3024',
+            'sp1' => 'file|max:3024',
+            'sp2' => 'file|max:3024',
+            'sp3' => 'file|max:3024',
+            'bukti_pelanggaran' => 'file|max:3024',
         ];
 
         $message = [
@@ -223,6 +253,125 @@ class InfractionController extends Controller
             }
         }
 
+        $sp1 = $infractions->sp1;
+        if ($request->sp1) {
+            $sp1 = $request->file('sp1')->store('sp1');
+            $sp1_path = $infractions->sp1;
+            if (Storage::exists($sp1_path)) {
+                Storage::delete($sp1_path);
+            }
+        }
+
+        $sp2 = $infractions->sp2;
+        if ($request->sp2) {
+            $sp2 = $request->file('sp2')->store('sp2');
+            $sp2_path = $infractions->sp2;
+            if (Storage::exists($sp2_path)) {
+                Storage::delete($sp2_path);
+            }
+        }
+
+        $sp3 = $infractions->sp3;
+        if ($request->sp3) {
+            $sp3 = $request->file('sp3')->store('sp3');
+            $sp3_path = $infractions->sp3;
+            if (Storage::exists($sp3_path)) {
+                Storage::delete($sp3_path);
+            }
+        }
+
+        // IF STATUS DISPOSISI KIRIM EMAIL KE KASI
+        if ($request->status == 'disposisi') {
+            $beautymail = app()->make(Beautymail::class);
+            $beautymail->send('emails.infraction',[
+                'nama' => $request->nama,
+                'alamat' => $request->alamat,
+                'phone' => $request->phone,
+                'di' => $request->di,
+                'kordinat' => $request->kordinat,
+                'jp' => $request->jp,
+                'status' => $request->status,
+                'pelapor_name' => $request->pelapor_name,
+            ], 
+            function($message){
+            $emails = ['idprimadona@gmail.com', 'ariabghf@gmail.com'];
+                $message
+                    ->from('ariabghufron@gmail.com')
+                    ->to($emails)
+                    ->subject('SIP-GARDAN!');
+            }
+        );
+
+        }
+
+        // IF SETATU PELANGGARAN KIRIM EMAIL KE ADMIN KEMBALI
+        if ($request->status == 'pelanggaran') {
+            $beautymail = app()->make(Beautymail::class);
+            $beautymail->send('emails.infraction',[
+                'nama' => $request->nama,
+                'alamat' => $request->alamat,
+                'phone' => $request->phone,
+                'di' => $request->di,
+                'kordinat' => $request->kordinat,
+                'jp' => $request->jp,
+                'status' => $request->status,
+                'pelapor_name' => $request->pelapor_name,
+            ], 
+            function($message){
+            $emails = ['idprimadona@gmail.com', 'ariabghf@gmail.com'];
+                $message
+                    ->from('ariabghufron@gmail.com')
+                    ->to($emails)
+                    ->subject('SIP-GARDAN!');
+            }
+        );
+
+        }
+        
+        // IF SETATUS SP KIRIM EMAIL KE KA BALAI / SATPOL KEMBALI
+        if ($request->status == 'sp1' || $request->status == 'sp2' || $request->status == 'sp3') {
+            $beautymail = app()->make(Beautymail::class);
+            $beautymail->send('emails.infraction',[
+                'nama' => $request->nama,
+                'alamat' => $request->alamat,
+                'phone' => $request->phone,
+                'di' => $request->di,
+                'kordinat' => $request->kordinat,
+                'jp' => $request->jp,
+                'status' => $request->status,
+                'pelapor_name' => $request->pelapor_name,
+            ], 
+            function($message){
+            $emails = ['idprimadona@gmail.com', 'ariabghf@gmail.com'];
+                $message
+                    ->from('ariabghufron@gmail.com')
+                    ->to($emails)
+                    ->subject('SIP-GARDAN!');
+            }
+        );
+
+        }
+
+
+
+
+        $bukti_pelanggaran = $infractions->bukti_pelanggaran;
+        if ($request->bukti_pelanggaran) {
+            $bukti_pelanggaran = $request->file('bukti_pelanggaran')->store('bukti');
+            $bukti_pelanggaran_path = $infractions->bukti_pelanggaran;
+            if (Storage::exists($bukti_pelanggaran_path)) {
+                Storage::delete($bukti_pelanggaran_path);
+            }
+        }
+        // JIKA STATUS PELANGGARAN UPLOAD BUKTI PELANGGARAN
+        if ($request->status == 'pelanggaran') {
+
+        }
+
+        
+
+
+
         $infraction = Infraction::findOrFail($id);
         $infraction->update([
             'nama' => $request->nama,
@@ -234,6 +383,10 @@ class InfractionController extends Controller
             'foto' =>  $foto,
             'status' => $request->status,
             'pelapor_name' => $request->pelapor_name,
+            'sp1' => $sp1,
+            'sp2' => $sp2,
+            'sp3' => $sp3,
+            'bukti_pelanggaran' => $bukti_pelanggaran,
         ]);
 
         return redirect()->route('admin_infraction')->with('success', 'Data berhasil diubah');

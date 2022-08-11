@@ -30,6 +30,6 @@ class InfractionMail extends Mailable
      */
     public function build()
     {  
-        return $this->subject('NOTIFIKASI SIP-GARDAN')->view('emails.TestMail');
+        return $this->subject('NOTIFIKASI SIP-GARDAN')->view('emails.infraction');
     }
 }

@@ -11,20 +11,20 @@ const logoutForm = document.querySelector("#logout-form");
 let activeIndex;
 
 switch (window.location.pathname.split("/")[1]) {
-    case "parking":
+    case "admin_infractions":
         activeIndex = 1;
         break;
-    case "report":
+    case "user":
         activeIndex = 2;
         break;
 
-    case "user":
+    case "report":
         activeIndex = 3;
         break;
 
     case "report":
-            activeIndex = 3;
-            break;
+        activeIndex = 4;
+        break;
 
     default:
         activeIndex = 0;
@@ -65,20 +65,17 @@ function changeLink() {
     moveActiveTab();
 
     switch (window.location.pathname.split("/")[1]) {
-        case "parking":
+        case "admin_infractions":
             activeIndex = 1;
             break;
-        case "report":
+        case "user":
             activeIndex = 2;
             break;
 
-        case "user":
+        case "report":
             activeIndex = 3;
             break;
-        case "admin_infractions":
-            activeIndex = 4;
-            break;
-
+    
         default:
             activeIndex = 0;
             break;
