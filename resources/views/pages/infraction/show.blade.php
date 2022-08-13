@@ -126,7 +126,18 @@
                   <span class="post_author"> <a href="#">{{ $infraction->pelapor_name }}</a></span>
                   <span style="text-transform: uppercase" class="post_comments"><a href="#">{{ $infraction->status }}</a></span>
                 </div>
-                <a href="#" data-popup=".popup-social" class="btn btn--full open-popup">SHARE THIS POST</a>
+                @if ($infraction->sp1)
+                  <a href="{{route('infraction.download', ['id'=>$infraction->id,'type'=> 'sp1'])}}" target="_blank"  class="btn btn--full open-popup">DOWNLOAD SP-1</a>
+                @endif
+                @if ($infraction->sp2)
+                  <a href="{{route('infraction.download', ['id'=>$infraction->id,'type'=> 'sp2'])}}" target="_blank"  class="btn btn--full open-popup">DOWNLOAD SP-2</a>
+                @endif
+                @if ($infraction->sp3)
+                  <a href="{{route('infraction.download', ['id'=>$infraction->id,'type'=> 'sp3'])}}" target="_blank"  class="btn btn--full open-popup">DOWNLOAD SP-3</a>
+                @endif
+                @if ($infraction->bukti_pelanggaran )
+                  <a href="{{route('infraction.download', ['id'=>$infraction->id,'type'=> 'bukti_pelanggaran'])}}" target="_blank"  class="btn btn--full open-popup">DOWNLOAD BUKTI PELANGGARAN</a>
+                @endif
 
 
 

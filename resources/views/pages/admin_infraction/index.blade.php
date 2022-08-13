@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Parkir
+    SIP-GARDAN
 @endsection
 
 @section('content')

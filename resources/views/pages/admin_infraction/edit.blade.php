@@ -63,12 +63,74 @@
                             <label for="">Daerah Irigasi<span>*</span></label>
                             <div class="input-field @error('di') error @enderror">
                                 {{-- <input type="number" placeholder="Nomor Handphone" name="di" value="{{ old('di') }}"> --}}
-                                <select style="text-transform: capitalize" name="di"class="form-select" class="js-example-basic-single" aria-label="Default select example">
+                                {{-- <select style="text-transform: capitalize" name="daerah_irigasi"class="form-select" class="js-example-basic-single" aria-label="Default select example">
                                     <option value="{{ $infraction->di }}" selected>{{ $infraction->di }}</option>
                                   <option value="pemali">Pemali</option>
                                   <option value="cacaban">Cacaban</option>
                                   <option value="comal">Comal</option>
-                                </select>
+                                </select> --}}
+                                <select name="di" id="daerah_irigasi" class="required">
+                                    <option value="{{ $infraction->di }}" selected>{{ $infraction->di }}</option>
+                                    <optgroup label="Korpokla Jlantah">
+                                      <option value="Lemahbang II">Lemahbang II</option>
+                                      <option value="Walikan">Walikan</option>
+                                      <option value="Braholo">Braholo</option>
+                                      <option value="Nglasem">Nglasem</option>
+                                      <option value="Menggok">Menggok</option>
+                                      <option value="Cangkring">Cangkring</option>
+                                      <option value="Sidomakmur">Sidomakmur</option>
+                                      <option value="Semanding">Semanding</option>
+                                      <option value="Pulo">Pulo</option>
+                                    </optgroup>
+                                    <optgroup label="Korpokla Samin">
+                                      <option value="Trani">Trani</option>
+                                      <option value="Bakdalem II">Bakdalem II</option>
+                                      <option value="Mindi">Mindi</option>
+                                      <option value="Kwangsan">Kwangsan</option>
+                                      <option value="Jetu">Jetu</option>
+                                      <option value="Kasihan II">Kasihan II</option>
+                                      <option value="Munggur">Munggur</option>
+                                      <option value="Jetis">Jetis</option>
+                                      <option value="Temantenan">Temantenan</option>
+                                      <option value="Sudangan">Sudangan</option>
+                                      <option value="Bonggo">Bonggo</option>
+                                      <option value="Pulo">Pulo</option>
+                                      <option value="Kepoh">Kepoh</option>
+                                      <option value="Seloromo">Seloromo</option>
+                                      <option value="Srambang">Srambang</option>
+                                      <option value="Sedayu">Sedayu</option>
+                                      <option value="Blingi">Blingi</option>
+                                    </optgroup>
+                                    <optgroup label="Korpokla Dengkeng">
+                                      <option value="Jaban">Jaban</option>
+                                      <option value="Ploso Wareng">Ploso Wareng</option>
+                                    </optgroup>
+                                    <optgroup label="Korpokla Gandul">
+                                      <option value="Pundung">Pundung</option>
+                                      <option value="Jumeneng">Jumeneng</option>
+                                      <option value="Nyaen / Tirip">Nyaen / Tirip</option>
+                                      <option value="Baran">Baran</option>
+                                      <option value="Glodog">Glodog</option>
+                                      <option value="Gunung Maling">Gunung Maling</option>
+                                      <option value="Majegan">Majegan</option>
+                                      <option value="Pakelan">Pakelan</option>
+                                      <option value="Tritis">Tritis</option>
+                                      <option value="Gisik">Gisik</option>
+                                      <option value="Ngasem">Ngasem</option>
+                                      <option value="Waduk Cengklik">Waduk Cengklik</option>
+                                      <option value="Brajan">Brajan</option>
+                                      <option value="Mantren">Mantren</option>
+                                    </optgroup>
+                                    <optgroup label="Korpokla Cemoro">
+                                      <option value="Bapang">Bapang</option>
+                                      <option value="Wonotoro">Wonotoro</option>
+                                      <option value="Waduk Klego">Waduk Klego</option>
+                                      <option value="Garat">Garat</option>
+                                      <option value="Parean">Parean</option>
+                                      <option value="Sb. Tlatar">Sb. Tlatar</option>
+                                      <option value="Kedung Boyo">Kedung Boyo</option>
+                                    </optgroup>
+                                  </select>
                                 <div class="error-mark @error('di') error-mark-show @enderror">
                                     <i class="bx bx-x"></i>
                                 </div>
@@ -78,12 +140,18 @@
                         <div class="input-group">
                           <label for="">Kordinat <span>*</span></label>
                           <div class="input-field @error('kordinat') error @enderror">
-                              <input type="text" placeholder="Kordinat" name="kordinat" value="{{ $infraction->kordinat }}">
+                              <input type="text" placeholder="Kordinat" name="kordinat" value="{{ $infraction->kordinat }}" id="kordinat">
                               <div class="error-mark @error('kordinat') error-mark-show @enderror">
                                   <i class="bx bx-x"></i>
                               </div>
                           </div>
                         </div>
+
+                        <div class="form_row">
+                            <div id="map"></div>
+                            <label>Kordinat:</label>
+                        </div>
+
 
                         <div class="input-group">
                           <label for="">Jenis Pelanggaran <span>*</span></label>
@@ -254,6 +322,19 @@
                             </div>
                         </div>
                         @endif
+
+                        @if ($infraction->bukti_pelanggaran)
+                        <div class="input-group">
+                            <label for="">Image Preview </label>
+                            <div class="input-field @error('foto') error @enderror" style="display: flex;justify-content: center;align-items: center">
+                                <img style="display: block" src="{{ asset("storage/". $infraction->bukti_pelanggaran) }}" alt="" title="" width="300px"/>
+                                <div class="error-mark @error('bukti_pelanggaran') error-mark-show @enderror">
+                                    <i class="bx bx-x"></i>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                       
                         
 
                         <div class="">
@@ -268,3 +349,84 @@
     </div>
 @endsection
 
+@section('script')
+    <script src="{{ asset('assets\jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('assets\jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('assets\swiper.min.js') }}"></script>
+    <script src="{{ asset('assets\jquery.custom.js') }}"></script>
+    {{-- select2 --}}
+    <script src="{{ asset('assets\select2.full.js') }}"></script>
+    <script src="{{ asset('assets\select2.full.min.js') }}"></script>
+    <script src="{{ asset('assets\select2.js') }}"></script>
+    <script src="{{ asset('assets\select2.min.js') }}"></script>
+
+    <script>
+    //      let latlong = ''
+    // var map = L.map('map').fitWorld();
+
+    // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //     maxZoom: 10,
+    //     attribution: '© DL Tech Maps'
+    // }).addTo(map);
+
+    // map.locate({setView: true, maxZoom: 10});
+
+    // function onLocationFound(e) {
+    //   var radius = e.accuracy;
+    //   const arrLatLong = Object.values(e.latlng)
+    //   const latlong = arrLatLong.join(', ')
+    //   console.log('=>', arrLatLong.join(', '));
+    //   document.getElementById("kordinat").setAttribute('value', latlong);
+      
+    //   L.marker(e.latlng).addTo(map)
+    //       .bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+    //   L.circle(e.latlng, radius).addTo(map);
+    // }
+
+
+    // map.on('locationfound', onLocationFound);
+
+    // function onLocationError(e) {
+    //   Swal.fire({
+    //     title: 'Error!',
+    //     text: 'Harus izinkan maps!',
+    //     icon: 'error',
+    //     confirmButtonText: 'Oke'
+    //   })
+     
+    // }
+
+    // map.on('locationerror', onLocationError);
+    const [latString, longString] = document.getElementById("kordinat").value.split(",");
+    // -7.558094809503133, 110.82646393830801
+
+    const lat = Number(latString) ||  -7.558094809503133
+    const long = Number(longString) ||  110.82646393830801
+
+    // setInterval(() => {
+    //     console.log(long);
+    // }, 1000);
+    
+    var mymap = L.map('map',{attributionControl: false}).setView([lat, long], 18)
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoid2lkb2RvMTk5MSIsImEiOiJja3AzcG5zYW0xamVnMm9xaWNnamI1ODRpIn0.wr-0_-8cP9KfDPiesVdoPw', {
+            maxZoom: 18,
+            attribution:'',
+            id: 'mapbox/streets-v11',
+            tileSize: 512,
+            zoomOffset:-1,
+            accessToken: 'pk.eyJ1IjoiZmF1emF5eXkiLCJhIjoiY2tqZng3OWw5MDlmejJ0cW9vbWg1bXlvMCJ9.zn3d3ptHQ38xKp4yM_55SQ'
+          }).addTo(mymap);
+    L.marker([lat, long]).addTo(mymap)
+    L.circle([lat, long], 100, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+		}).addTo(mymap).openPopup();
+    L.popup();
+
+    $("#daerah_irigasi").select2({
+        dropdownCssClass:'increasezindex'
+    });
+    </script>
+@endsection

@@ -155,6 +155,10 @@
                   <td>{{ $infraction->nama }}</td>
               </tr>
               <tr>
+                <td>Status</td>
+                <td style="color: red;">{{ $infraction->status }}</td>
+            </tr>
+              <tr>
                   <td>Alamat</td>
                   <td>{{ $infraction->alamat }}</td>
               </tr>
@@ -174,13 +178,48 @@
                   <td>Kordinat</td>
                   <td>{{ $infraction->kordinat }}</td>
               </tr>
+                <tr>
+                    <td>Pelapor</td>
+                    <td>{{ $infraction->pelapor_name }}</td>
+                </tr>
               <tr>
                   <td>Foto</td>
-                  <td><img src="{{ asset("storage/". $infraction->foto) }}" alt="" srcset=""></td>
+                  <td style="text-align: center"><img src="{{ asset("storage/". $infraction->foto) }}" alt="" srcset=""></td>
               </tr>
+                @if ($infraction->bukti_pelanggaran)
+                    <tr>
+                        <td>Bukti Pelanggaran</td>
+                        <td style="text-align: center"><img src="{{ asset("storage/". $infraction->bukti_pelanggaran) }}" alt="" srcset=""></td>
+                    </tr>
+                @endif
+                {{-- @if ($infraction->sp1)
+                    <tr>
+                        <td>SP-1</td>
+                        <td>  <iframe style="display: block !important;" width="1000" height="500" style="display:none"
+                            src="{{ asset("storage/". $infraction->sp1)  }}"></iframe></td>
+                    </tr>
+                @endif
+                @if ($infraction->sp2)
+                    <tr>
+                        <td>SP-2</td>
+                        <td>  <iframe style="display: block !important;" width="1000" height="500" style="display:none"
+                            src="{{ asset("storage/". $infraction->sp2)  }}"></iframe></td>
+                    </tr>
+                @endif
+                @if ($infraction->sp3)
+                    <tr>
+                        <td>SP-3</td>
+                        <td>  <iframe style="display: block !important;" width="1000" height="500" style="display:none"
+                            src="{{ asset("storage/". $infraction->sp3)  }}"></iframe></td>
+                    </tr>
+                @endif --}}
           </tbody>
         
       </table>   
+        {{-- @if ($infraction->sp1)
+            <iframe style="display: block !important;" width="1000" height="500" style="display:none"
+            src="{{ asset("storage/". $infraction->sp1)  }}"></iframe>
+        @endif --}}
     </div>
 </body>
 

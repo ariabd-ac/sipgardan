@@ -207,7 +207,7 @@
                     <div class="form_row">
                       <div id="map"></div>
                       <label>Kordinat:</label>
-                      <input type="text" name="kordinat" value="" class="form_input" id="kordinat" readonly disabled/>
+                      <input type="text" name="kordinat" value="" class="form_input" id="kordinat"/>
                     </div>
 
                     @error('kordinat')
@@ -278,7 +278,7 @@
    
    <script>
     let latlong = ''
-    var map = L.map('map').fitWorld();
+    var map = L.map('map', {attributionControl: false}).fitWorld();
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 20,
@@ -292,7 +292,7 @@
       const arrLatLong = Object.values(e.latlng)
       const latlong = arrLatLong.join(', ')
       console.log('=>', arrLatLong.join(', '));
-      document.getElementById("kordinat").value = latlong;
+      document.getElementById("kordinat").setAttribute('value', latlong);
       
       L.marker(e.latlng).addTo(map)
           .bindPopup("You are within " + radius + " meters from this point").openPopup();
@@ -310,11 +310,7 @@
         icon: 'error',
         confirmButtonText: 'Oke'
       })
-      console.log(e);
-      if (e) {
-        
-        $("body").append('<div id="overlay" style="background-color:grey;position:absolute;top:0;left:0;height:100%;width:100%;z-index:999"></div>');
-      }
+     
     }
 
     map.on('locationerror', onLocationError);

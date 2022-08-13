@@ -12,10 +12,20 @@ use Snowfire\Beautymail\Beautymail;
 class InfractionController extends Controller
 {
 
-    public function __construct(){
-        $this->middleware(['auth']);
+    // public function __construct(){
+    //     $this->middleware(['auth']);
+    // }
+
+    public function downloadSP1($id, $type)
+    {
+        $infraction = Infraction::findOrFail($id);
+
+        $path = public_path("storage\\{$infraction->{$type}}");
+            return response()->download($path);
+
+        
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -111,6 +121,72 @@ class InfractionController extends Controller
         ];
 
         $emails = ['sp.dentalcaries@gmail.com', 'ariabghf@gmail.com'];
+
+        $msg = "SIP-GARDAN PELANGGARAN NOTIFICATION 
+        \r\n NAMA : {$request->nama} 
+        \r\n STATUS : {$request->status}
+        \r\n NO TELFON :  {$request->phone}
+        \r\n DAERAH IRIGASI :  {$request->di}
+        \r\n KORDINAT : {$request->kordinat}
+        \r\n JENIS PELANGGARAN : {$request->jp}
+        \r\n PELAPOR : {$request->pelapor_name}";
+
+        $data = [
+            'api_key' => 'b2d95af932eedb4de92b3496f338aa5f97b36ae0',
+            'sender'  => '6285156930294',
+            'number'  => '6283113729917',
+            'message' => $msg
+        ];
+        
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://wa.sip-gardan.com/app/api/send-message",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => json_encode($data))
+        );
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        echo $response;
+
+
+        // SEND KE 2 WA
+        $data2 = [
+            'api_key' => 'b2d95af932eedb4de92b3496f338aa5f97b36ae0',
+            'sender'  => '6285156930294',
+            'number'  => '6285747066664',
+            'message' => $msg
+        ];
+        
+        $curl2 = curl_init();
+        curl_setopt_array($curl2, array(
+        CURLOPT_URL => "https://wa.sip-gardan.com/app/api/send-message",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => json_encode($data2))
+        );
+
+        $response2 = curl_exec($curl2);
+
+        curl_close($curl2);
+        echo $response2;
+
+
+
+
+
 
         // Mail::to($emails)->send(new InfractionMail($detail));
         $beautymail = app()->make(Beautymail::class);
@@ -412,4 +488,5 @@ class InfractionController extends Controller
         
         return view('barcode.infraction', compact('infraction'));
     }
+
 }

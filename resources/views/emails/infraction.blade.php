@@ -114,7 +114,7 @@
 			</td>
 		</tr>
 		<tr>
-		@if($foto)
+		{{-- @if($foto)
 		<tr>
 			<td width="100%" height="25"></td>
 		</tr>
@@ -132,7 +132,7 @@
 			</td>
 		</tr>
 		<tr>
-		@endif
+		@endif --}}
 
 
 			<td width="100%" height="25"></td>

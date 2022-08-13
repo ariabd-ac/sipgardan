@@ -45,6 +45,8 @@ Route::get('/test', function()
 
 });
 
+// download
+Route::get('/download/${id}/type/${type}', [App\Http\Controllers\InfractionController::class, 'downloadSP1'])->name('infraction.download');
 
 // user
 Route::get('/infractions', [App\Http\Controllers\InfractionController::class, 'index'])->name('infraction');

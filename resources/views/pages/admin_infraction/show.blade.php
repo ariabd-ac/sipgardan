@@ -4,6 +4,23 @@
     SIPGARDAN
 @endsection
 
+@section('style')
+    <style>
+    table, th, td {
+        border: 1px solid grey;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    td {
+        padding: .625rem;
+        text-transform: uppercase;
+    }
+    </style>
+@endsection
+
 @section('content')
     <div class="container-camera" id="container-camera" style="display :none">
         <div class="popup-camera">
@@ -30,117 +47,81 @@
                         <button class="btn btn-main" onclick="printDiv()">Print</button>
                     </div>
                     @endrole
-                    <form action="{{ route('admin_infraction.store') }}" method="POST" class="" id="CustomForm" enctype="multipart/form-data">
-                        @csrf
-                        <div class="input-group" style="width: 40%">
-                            <label for="">Nama <span>*</span></label>
-                            <div class="input-field @error('nama') error @enderror">
-                                <input type="text" placeholder="Nama" name="nama"
-                                    value="{{ $infraction->nama }}" disabled>
-                                <div class="error-mark @error('nama') error-mark-show @enderror">
-                                    <i class="bx bx-x"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="input-group" style="width: 40%">
-                            <label for="">Alamat <span>*</span></label>
-                            <div class="input-field @error('alamat') error @enderror">
-                                <input type="text" placeholder="Alamat" name="alamat" value="{{ $infraction->alamat }}" disabled>
-                                <div class="error-mark @error('alamat') error-mark-show @enderror">
-                                    <i class="bx bx-x"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="input-group" style="width: 40%">
-                            <label for="">Nomor Handphone <span>*</span></label>
-                            <div class="input-field @error('phone') error @enderror">
-                                <input type="number" placeholder="Nomor Handphone" name="phone" value="{{ $infraction->phone }}" disabled>
-                                <div class="error-mark @error('phone') error-mark-show @enderror">
-                                    <i class="bx bx-x"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="input-group" style="width: 40%">
-                            <label for="">Daerah Irigasi<span>*</span></label>
-                            <div class="input-field @error('di') error @enderror">
-                                {{-- <input type="number" placeholder="Nomor Handphone" name="di" value="{{ old('di') }}"> --}}
-                                <select name="di"class="form-select" class="js-example-basic-single" aria-label="Default select example" disabled>
-                                  <option value="{{ $infraction->di }}" disabled selected>{{ $infraction->di }}</option>
-                                  <option value="pemali">Pemali</option>
-                                  <option value="cacaban">Cacaban</option>
-                                  <option value="comal">Comal</option>
-                                </select>
-                                <div class="error-mark @error('di') error-mark-show @enderror">
-                                    <i class="bx bx-x"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="input-group" style="width: 40%">
-                          <label for="">Kordinat <span>*</span></label>
-                          <div class="input-field @error('kordinat') error @enderror">
-                              <input type="text" placeholder="Kordinat" name="kordinat" value="{{ $infraction->kordinat }}" disabled>
-                              <div class="error-mark @error('kordinat') error-mark-show @enderror">
-                                  <i class="bx bx-x"></i>
-                              </div>
-                          </div>
-                        </div>
-
-                        <div class="input-group" style="width: 40%">
-                          <label for="">Jenis Pelanggaran <span>*</span></label>
-                          <div class="input-field @error('jp') error @enderror">
-                              <input type="text" placeholder="Jenis Pelanggaran" name="jp" value="{{ $infraction->jp }}" disabled>
-                              <div class="error-mark @error('jp') error-mark-show @enderror">
-                                  <i class="bx bx-x"></i>
-                              </div>
-                          </div>
-                        </div>
-
-                        <div class="input-group" style="width: 40%">
-                          <label for="">Foto <span>*</span></label>
-                          <div class="input-field @error('foto') error @enderror">
-                              <img src="{{ asset("storage/". $infraction->foto) }}" alt="" title="" />
-                              <div class="error-mark @error('foto') error-mark-show @enderror">
-                                  <i class="bx bx-x"></i>
-                              </div>
-                          </div>
-                        </div>
-
-                        <div class="input-group" style="width: 40%">
-                          <label for="">Nama Pelapor <span>*</span></label>
-                          <div class="input-field @error('pelapor_name') error @enderror">
-                              <input type="text" name="pelapor_name" value="{{ $infraction->pelapor_name }}" disabled>
-                              <div class="error-mark @error('pelapor_name') error-mark-show @enderror">
-                                  <i class="bx bx-x"></i>
-                              </div>
-                          </div>
-                        </div>
-
-                        <div class="input-group" style="width: 40%">
-                          <label for="">Status<span>*</span></label>
-                          <div class="input-field @error('status') error @enderror">
-                                <select name="status" class="js-example-basic-single" aria-label="Default select example" disabled>
-                                        <option value="{{ $infraction->status }}" disabled selected> {{ $infraction->status }}</option>
-                                    
-                                        <option value="draft">Draft</option>
-                                        <option value="disposisi">Disposisi</option>
-                                        <option value="pelanggaran">Pelanggaran</option>
-                                        <option value="ditolak">Ditolak</option>
-                                        <option value="sp1">SP-1</option>
-                                        <option value="sp2">SP-2</option>
-                                        <option value="sp3">SP-3</option>
-                                    
-                              </select>
-                              <div class="error-mark @error('status') error-mark-show @enderror">
-                                  <i class="bx bx-x"></i>
-                              </div>
-                          </div>
-                        </div>
-
-                    </form>
+                    <div style="display: flex">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>Nama</td>
+                                    <td>{{ $infraction->nama }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Status</td>
+                                    <td style="color: red;">{{ $infraction->status }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Alamat</td>
+                                    <td>{{ $infraction->alamat }}</td>
+                                </tr>
+                                <tr>
+                                    <td>No Telfon</td>
+                                    <td>{{ $infraction->phone }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Daerah Irigas</td>
+                                    <td>{{ $infraction->di }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Jenis Pelanggaran</td>
+                                    <td>{{ $infraction->jp }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Kordinat</td>
+                                    <td id="kordinat">{{ $infraction->kordinat }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Maps</td>
+                                    <td><div id="map"></div></td>
+                                </tr>
+                                <tr>
+                                    <td>Pelapor</td>
+                                    <td>{{ $infraction->pelapor_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Foto</td>
+                                    <td style="text-align: center"><img src="{{ asset("storage/". $infraction->foto) }}" alt="" srcset=""></td>
+                                </tr>
+                                @if ($infraction->bukti_pelanggaran)
+                                    <tr>
+                                        <td>Bukti Pelanggaran</td>
+                                        <td style="text-align: center"><img src="{{ asset("storage/". $infraction->bukti_pelanggaran) }}" alt="" srcset=""></td>
+                                    </tr>
+                                @endif
+                                @if ($infraction->sp1)
+                                    <tr>
+                                        <td>SP-1</td>
+                                        <td>  <iframe style="display: block !important;" width="1000" height="500" style="display:none"
+                                            src="{{ asset("storage/". $infraction->sp1)  }}"></iframe></td>
+                                    </tr>
+                                @endif
+                                @if ($infraction->sp2)
+                                    <tr>
+                                        <td>SP-2</td>
+                                        <td>  <iframe style="display: block !important;" width="1000" height="500" style="display:none"
+                                            src="{{ asset("storage/". $infraction->sp2)  }}"></iframe></td>
+                                    </tr>
+                                @endif
+                                @if ($infraction->sp3)
+                                    <tr>
+                                        <td>SP-3</td>
+                                        <td>  <iframe style="display: block !important;" width="1000" height="500" style="display:none"
+                                            src="{{ asset("storage/". $infraction->sp3)  }}"></iframe></td>
+                                    </tr>
+                                @endif
+                            </tbody>
+                        </table>    
+                        {{-- <div id="map"></div> --}}
+                    </div>
+                   
                     @role('admin')
                     <iframe id="print_frame" width="" style="display:none"
                     src="{{ route('admin_infraction.print', $infraction->id) }}"></iframe>
@@ -168,5 +149,44 @@
             window.frames["print_frame"].contentWindow.document.body.focus();
             window.frames["print_frame"].contentWindow.print();
         }
+    </script>
+
+    <script>
+   
+
+        // map.on('locationerror', onLocationError);
+        
+        document.getElementById ( "kordinat" ).textContent
+
+        var tdElem = document.getElementById ( "kordinat" );
+        var tdText = tdElem.innerHTML || tdElem.textContent;
+        // -7.558094809503133, 110.82646393830801
+
+        
+        // setInterval(() => {
+        //     // console.log(tdElem);
+        //     console.log(tdText);
+        // }, 1000);
+        const [latString, longString] = tdText.split(",");
+        const lat = Number(latString) ||  -7.558094809503133
+        const long = Number(longString) ||  110.82646393830801
+        var mymap = L.map('map', {attributionControl: false}).setView([lat, long], 18)
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoid2lkb2RvMTk5MSIsImEiOiJja3AzcG5zYW0xamVnMm9xaWNnamI1ODRpIn0.wr-0_-8cP9KfDPiesVdoPw', {
+                maxZoom: 18,
+                attribution:'',
+                id: 'mapbox/streets-v11',
+                tileSize: 512,
+                zoomOffset:-1,
+                accessToken: 'pk.eyJ1IjoiZmF1emF5eXkiLCJhIjoiY2tqZng3OWw5MDlmejJ0cW9vbWg1bXlvMCJ9.zn3d3ptHQ38xKp4yM_55SQ'
+            }).addTo(mymap);
+        L.marker([lat, long]).addTo(mymap)
+        L.circle([lat, long], 50, {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5
+            }).addTo(mymap).openPopup();
+        L.popup();
+
+        
     </script>
 @endsection

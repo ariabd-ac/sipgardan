@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Parkir
+SIP-GARDAN
 @endsection
 
 @section('content')
@@ -22,7 +22,7 @@
             <div class="col-parking">
                 <div class="card-box" style="height: 175px">
                     <div class="card-box-header" style="background-color : #e9e9e9;">
-                        Total Parkir
+                        Total SIP-GARDAN
                     </div>
                     <div class="card-box-body">
                         <div class="" style="display:flex; gap: 1rem; align-items:center">

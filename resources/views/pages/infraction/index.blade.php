@@ -80,7 +80,7 @@
                           </div>
 													<div class="post_details">
 														<div class="post_category"><a href="{{ route('infraction.show', $infraction->id) }}">{{ $infraction->nama }}</a></div>
-														<h2><a href="blog-single.html">{{ $infraction->alamat }}</a>
+														<h2><a href="{{ route('infraction.show', $infraction->id) }}">{{ $infraction->alamat }}</a>
 														</h2>
 													</div>
 													<div class="post_swipe"><img src="{{ asset("assets\images/swipe_more.png") }}" alt="" title="" /></div>
