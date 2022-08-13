@@ -34,14 +34,70 @@ Auth::routes();
 Route::get('/send-email', [App\Http\Controllers\MailController::class, 'sendEmail']);
 Route::get('/test', function()
 {
-	$beautymail = app()->make(Snowfire\Beautymail\Beautymail::class);
-	$beautymail->send('emails.infraction', [], function($message)
-	{
-		$message
-			->from('ariabghufron@gmail.com')
-			->to('ariabghf@gmail.com', 'John Smith')
-			->subject('Welcome!');
-	});
+	$msg = "SIP-GARDAN PELANGGARAN NOTIFICATION 
+	\r\n NAMA : A
+	\r\n STATUS : A
+	\r\n NO TELFON :  A
+	\r\n DAERAH IRIGASI :  A
+	\r\n KORDINAT : A
+	\r\n JENIS PELANGGARAN : A
+	\r\n PELAPOR : A";
+
+	$data = [
+		'api_key' => 'b2d95af932eedb4de92b3496f338aa5f97b36ae0',
+		'sender'  => '6285156930294',
+		'number'  => '6283113729917',
+		'message' => $msg
+	];
+
+		// $curl = curl_init();
+		// curl_setopt_array($curl, array(
+		// CURLOPT_URL => "https://wa.sip-gardan.com/app/",
+		// CURLOPT_RETURNTRANSFER => true,
+		// CURLOPT_ENCODING => "",
+		// CURLOPT_MAXREDIRS => 10,
+		// CURLOPT_TIMEOUT => 0,
+		// CURLOPT_FOLLOWLOCATION => true,
+		// // CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		// CURLOPT_CUSTOMREQUEST => "POST",
+		// CURLOPT_SSL_VERIFYHOST => false,
+		// CURLOPT_SSL_VERIFYPEER => false,
+		// CURLOPT_POSTFIELDS => json_encode($data))
+		// );
+
+		// $response = curl_exec($curl);
+
+		// curl_close($curl);
+		// echo $response;
+
+	
+
+		$ch = curl_init();
+
+		curl_setopt($ch, CURLOPT_URL, 'https://wa.sip-gardan.com/app/"');
+
+		// save cookies to 'public/cookie.txt' you can change this later.
+		curl_setopt($ch, CURLOPT_COOKIEJAR, 'cookie.txt');
+
+		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+		curl_exec($ch);
+
+		// supply cookie with request
+		// curl_setopt($ch, CURLOPT_COOKIE, 'cookie.txt');
+
+		// // the url you would like to visit
+		// curl_setopt($ch, CURLOPT_URL, 'https://example.net/profile/');
+
+		$content = curl_exec($ch);
+
+		curl_close($ch);
+
+		var_dump($content);
+		die;
+
+		// webpage will be displayed in your browser
+		return;
 
 });
 

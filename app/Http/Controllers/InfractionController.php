@@ -122,6 +122,9 @@ class InfractionController extends Controller
 
         $emails = ['sp.dentalcaries@gmail.com', 'ariabghf@gmail.com'];
 
+        // ==================================================================================
+        // SEND WA KE KEPALA
+
         $msg = "SIP-GARDAN PELANGGARAN NOTIFICATION 
         \r\n NAMA : {$request->nama} 
         \r\n STATUS : {$request->status}
@@ -148,20 +151,24 @@ class InfractionController extends Controller
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_SSL_VERIFYHOST => false,
+        CURLOPT_SSL_VERIFYPEER => false,
         CURLOPT_POSTFIELDS => json_encode($data))
         );
 
         $response = curl_exec($curl);
-
+        
+        // dd(curl_exec($curl));
         curl_close($curl);
         echo $response;
 
+        // ==================================================================================
 
-        // SEND KE 2 WA
+        // SEND KE 2 WA KE ADMIN
         $data2 = [
             'api_key' => 'b2d95af932eedb4de92b3496f338aa5f97b36ae0',
             'sender'  => '6285156930294',
-            'number'  => '6285747066664',
+            'number'  => '6283113729917',
             'message' => $msg
         ];
         
@@ -175,6 +182,8 @@ class InfractionController extends Controller
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_SSL_VERIFYHOST => false,
+        CURLOPT_SSL_VERIFYPEER => false,
         CURLOPT_POSTFIELDS => json_encode($data2))
         );
 
@@ -183,9 +192,43 @@ class InfractionController extends Controller
         curl_close($curl2);
         echo $response2;
 
+        // ==================================================================================
+        // SEND WA KE PELAPOR
+
+        $data3 = [
+            'api_key' => 'b2d95af932eedb4de92b3496f338aa5f97b36ae0',
+            'sender'  => '6285156930294',
+            'number'  => '6285712432304',
+            'message' => $msg
+        ];
+        
+        $curl3 = curl_init();
+        curl_setopt_array($curl3, array(
+        CURLOPT_URL => "https://wa.sip-gardan.com/app/api/send-message",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_SSL_VERIFYHOST => false,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_POSTFIELDS => json_encode($data3))
+        );
+
+        $response3 = curl_exec($curl3);
+
+        curl_close($curl3);
+        echo $response3;
+
+        // ==================================================================================
 
 
 
+
+
+        // KIRIM EMAILL KE KEPALA & ADMIN
 
 
         // Mail::to($emails)->send(new InfractionMail($detail));
@@ -208,6 +251,11 @@ class InfractionController extends Controller
                 ->subject('SIP-GARDAN!');
         }
     );
+
+
+
+
+
 
         return redirect()->route('infraction')->with('success', "User berhasil ditambahkan");
     }
@@ -356,81 +404,6 @@ class InfractionController extends Controller
             }
         }
 
-        // IF STATUS DISPOSISI KIRIM EMAIL KE KASI
-        if ($request->status == 'disposisi') {
-            $beautymail = app()->make(Beautymail::class);
-            $beautymail->send('emails.infraction',[
-                'nama' => $request->nama,
-                'alamat' => $request->alamat,
-                'phone' => $request->phone,
-                'di' => $request->di,
-                'kordinat' => $request->kordinat,
-                'jp' => $request->jp,
-                'status' => $request->status,
-                'pelapor_name' => $request->pelapor_name,
-            ], 
-            function($message){
-            $emails = ['idprimadona@gmail.com', 'ariabghf@gmail.com'];
-                $message
-                    ->from('ariabghufron@gmail.com')
-                    ->to($emails)
-                    ->subject('SIP-GARDAN!');
-            }
-        );
-
-        }
-
-        // IF SETATU PELANGGARAN KIRIM EMAIL KE ADMIN KEMBALI
-        if ($request->status == 'pelanggaran') {
-            $beautymail = app()->make(Beautymail::class);
-            $beautymail->send('emails.infraction',[
-                'nama' => $request->nama,
-                'alamat' => $request->alamat,
-                'phone' => $request->phone,
-                'di' => $request->di,
-                'kordinat' => $request->kordinat,
-                'jp' => $request->jp,
-                'status' => $request->status,
-                'pelapor_name' => $request->pelapor_name,
-            ], 
-            function($message){
-            $emails = ['idprimadona@gmail.com', 'ariabghf@gmail.com'];
-                $message
-                    ->from('ariabghufron@gmail.com')
-                    ->to($emails)
-                    ->subject('SIP-GARDAN!');
-            }
-        );
-
-        }
-        
-        // IF SETATUS SP KIRIM EMAIL KE KA BALAI / SATPOL KEMBALI
-        if ($request->status == 'sp1' || $request->status == 'sp2' || $request->status == 'sp3') {
-            $beautymail = app()->make(Beautymail::class);
-            $beautymail->send('emails.infraction',[
-                'nama' => $request->nama,
-                'alamat' => $request->alamat,
-                'phone' => $request->phone,
-                'di' => $request->di,
-                'kordinat' => $request->kordinat,
-                'jp' => $request->jp,
-                'status' => $request->status,
-                'pelapor_name' => $request->pelapor_name,
-            ], 
-            function($message){
-            $emails = ['idprimadona@gmail.com', 'ariabghf@gmail.com'];
-                $message
-                    ->from('ariabghufron@gmail.com')
-                    ->to($emails)
-                    ->subject('SIP-GARDAN!');
-            }
-        );
-
-        }
-
-
-
-
         $bukti_pelanggaran = $infractions->bukti_pelanggaran;
         if ($request->bukti_pelanggaran) {
             $bukti_pelanggaran = $request->file('bukti_pelanggaran')->store('bukti');
@@ -439,14 +412,374 @@ class InfractionController extends Controller
                 Storage::delete($bukti_pelanggaran_path);
             }
         }
-        // JIKA STATUS PELANGGARAN UPLOAD BUKTI PELANGGARAN
-        if ($request->status == 'pelanggaran') {
 
-        }
+
+        $msg = "SIP-GARDAN PELANGGARAN NOTIFICATION 
+        \r\n NAMA : {$request->nama} 
+        \r\n STATUS : {$request->status}
+        \r\n NO TELFON :  {$request->phone}
+        \r\n DAERAH IRIGASI :  {$request->di}
+        \r\n KORDINAT : {$request->kordinat}
+        \r\n JENIS PELANGGARAN : {$request->jp}
+        \r\n PELAPOR : {$request->pelapor_name}";
+
+
+
+        // IF STATUS DISPOSISI KIRIM EMAIL & WA KE KASI
+        if ($request->status == 'disposisi') {
+            // KIRIM WA KE KA
+            $data = [
+                'api_key' => 'b2d95af932eedb4de92b3496f338aa5f97b36ae0',
+                'sender'  => '6285156930294',
+                'number'  => '6283113729917',
+                'message' => $msg
+            ];
+            
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://wa.sip-gardan.com/app/api/send-message",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_POSTFIELDS => json_encode($data))
+            );
+    
+            $response = curl_exec($curl);
+    
+            curl_close($curl);
+            echo $response;
+
+            // =========================================================================
+
+            // KIRIM WA KE KASI
+            $data2 = [
+                'api_key' => 'b2d95af932eedb4de92b3496f338aa5f97b36ae0',
+                'sender'  => '6285156930294',
+                'number'  => '6285747066664',
+                'message' => $msg
+            ];
+            
+            $curl2 = curl_init();
+            curl_setopt_array($curl2, array(
+            CURLOPT_URL => "https://wa.sip-gardan.com/app/api/send-message",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_POSTFIELDS => json_encode($data2))
+            );
+    
+            $response2 = curl_exec($curl2);
+    
+            curl_close($curl2);
+            echo $response2;
+
+
+            // SEND WA KE PELAPOR
+
+            $data3 = [
+                'api_key' => 'b2d95af932eedb4de92b3496f338aa5f97b36ae0',
+                'sender'  => '6285156930294',
+                'number'  => '6285712432304',
+                'message' => $msg
+            ];
+            
+            $curl3 = curl_init();
+            curl_setopt_array($curl3, array(
+            CURLOPT_URL => "https://wa.sip-gardan.com/app/api/send-message",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_POSTFIELDS => json_encode($data3))
+            );
+
+            $response3 = curl_exec($curl3);
+
+            curl_close($curl3);
+            echo $response3;
+
+
+            // ======================================
+
+
+            // KIRIM EMAIL KE KEPALA DAN KASI
+            $beautymail = app()->make(Beautymail::class);
+            $beautymail->send('emails.infraction',[
+                'nama' => $request->nama,
+                'alamat' => $request->alamat,
+                'phone' => $request->phone,
+                'di' => $request->di,
+                'kordinat' => $request->kordinat,
+                'jp' => $request->jp,
+                'status' => $request->status,
+                'pelapor_name' => $request->pelapor_name,
+            ], 
+            function($message){
+            $emails = ['idprimadona@gmail.com', 'ariabghf@gmail.com'];
+                $message
+                    ->from('ariabghufron@gmail.com')
+                    ->to($emails)
+                    ->subject('SIP-GARDAN!');
+                }
+
+            
+            );
+            // ======================================== 
+
 
         
 
 
+
+        }
+
+        // IF SETATU PELANGGARAN KIRIM EMAIL KE ADMIN KEMBALI
+        if ($request->status == 'pelanggaran' || $request->status == 'ditolak') {
+
+            // KIRIM WA KE KA
+            $data = [
+                'api_key' => 'b2d95af932eedb4de92b3496f338aa5f97b36ae0',
+                'sender'  => '6285156930294',
+                'number'  => '6283113729917',
+                'message' => $msg
+            ];
+            
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://wa.sip-gardan.com/app/api/send-message",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_POSTFIELDS => json_encode($data))
+            );
+    
+            $response = curl_exec($curl);
+    
+            curl_close($curl);
+            echo $response;
+
+            // =========================================================================
+
+            // KIRIM WA KE ADMIN
+            $data2 = [
+                'api_key' => 'b2d95af932eedb4de92b3496f338aa5f97b36ae0',
+                'sender'  => '6285156930294',
+                'number'  => '6285747066664',
+                'message' => $msg
+            ];
+            
+            $curl2 = curl_init();
+            curl_setopt_array($curl2, array(
+            CURLOPT_URL => "https://wa.sip-gardan.com/app/api/send-message",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_POSTFIELDS => json_encode($data2))
+            );
+    
+            $response2 = curl_exec($curl2);
+    
+            curl_close($curl2);
+            echo $response2;
+
+
+            // SEND WA KE PELAPOR
+
+            $data3 = [
+                'api_key' => 'b2d95af932eedb4de92b3496f338aa5f97b36ae0',
+                'sender'  => '6285156930294',
+                'number'  => '6285712432304',
+                'message' => $msg
+            ];
+            
+            $curl3 = curl_init();
+            curl_setopt_array($curl3, array(
+            CURLOPT_URL => "https://wa.sip-gardan.com/app/api/send-message",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_POSTFIELDS => json_encode($data3))
+            );
+
+            $response3 = curl_exec($curl3);
+
+            curl_close($curl3);
+            echo $response3;
+
+            // ======================================
+
+
+            $beautymail = app()->make(Beautymail::class);
+            $beautymail->send('emails.infraction',[
+                'nama' => $request->nama,
+                'alamat' => $request->alamat,
+                'phone' => $request->phone,
+                'di' => $request->di,
+                'kordinat' => $request->kordinat,
+                'jp' => $request->jp,
+                'status' => $request->status,
+                'pelapor_name' => $request->pelapor_name,
+            ], 
+            function($message){
+            $emails = ['idprimadona@gmail.com', 'ariabghf@gmail.com'];
+                $message
+                    ->from('ariabghufron@gmail.com')
+                    ->to($emails)
+                    ->subject('SIP-GARDAN!');
+            }
+            );
+
+        }
+        
+        // IF SETATUS SP KIRIM EMAIL KE KA BALAI / SATPOL KEMBALI
+        if ($request->status == 'sp1' || $request->status == 'sp2' || $request->status == 'sp3') {
+            // KIRIM WA KE KA
+            $data = [
+                'api_key' => 'b2d95af932eedb4de92b3496f338aa5f97b36ae0',
+                'sender'  => '6285156930294',
+                'number'  => '6283113729917',
+                'message' => $msg
+            ];
+            
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://wa.sip-gardan.com/app/api/send-message",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_POSTFIELDS => json_encode($data))
+            );
+    
+            $response = curl_exec($curl);
+    
+            curl_close($curl);
+            echo $response;
+
+            // =========================================================================
+
+            // KIRIM WA KE ADMIN
+            $data2 = [
+                'api_key' => 'b2d95af932eedb4de92b3496f338aa5f97b36ae0',
+                'sender'  => '6285156930294',
+                'number'  => '6285747066664',
+                'message' => $msg
+            ];
+            
+            $curl2 = curl_init();
+            curl_setopt_array($curl2, array(
+            CURLOPT_URL => "https://wa.sip-gardan.com/app/api/send-message",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_POSTFIELDS => json_encode($data2))
+            );
+    
+            $response2 = curl_exec($curl2);
+    
+            curl_close($curl2);
+            echo $response2;
+
+
+            // SEND WA KE PELAPOR
+
+            $data3 = [
+                'api_key' => 'b2d95af932eedb4de92b3496f338aa5f97b36ae0',
+                'sender'  => '6285156930294',
+                'number'  => '6285712432304',
+                'message' => $msg
+            ];
+            
+            $curl3 = curl_init();
+            curl_setopt_array($curl3, array(
+            CURLOPT_URL => "https://wa.sip-gardan.com/app/api/send-message",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_POSTFIELDS => json_encode($data3))
+            );
+
+            $response3 = curl_exec($curl3);
+
+            curl_close($curl3);
+            echo $response3;
+
+            // ======================================
+
+
+            $beautymail = app()->make(Beautymail::class);
+            $beautymail->send('emails.infraction',[
+                'nama' => $request->nama,
+                'alamat' => $request->alamat,
+                'phone' => $request->phone,
+                'di' => $request->di,
+                'kordinat' => $request->kordinat,
+                'jp' => $request->jp,
+                'status' => $request->status,
+                'pelapor_name' => $request->pelapor_name,
+            ], 
+            function($message){
+            $emails = ['idprimadona@gmail.com', 'ariabghf@gmail.com'];
+                $message
+                    ->from('ariabghufron@gmail.com')
+                    ->to($emails)
+                    ->subject('SIP-GARDAN!');
+            }
+            );
+
+        }
 
         $infraction = Infraction::findOrFail($id);
         $infraction->update([
