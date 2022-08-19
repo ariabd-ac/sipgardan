@@ -56,6 +56,16 @@
             
             <div id="pages_maincontent">
               <h2 class="page_title">Data Pelanggaran</h2>
+              <div class="page_single layout_fullwidth_padding" style="height: 50px;">
+                <div class="contactform">
+                  <form action="/infractions"  id="CustomForm" style="width: 100%;">
+                      <div class="form_row">
+                        <input type="text" name="search"  class="form_input" value="{{ request('search') }}"/>
+                        <input type="submit" class="form_submit" id="submit" value="Search" />
+                      </div>
+                  </form>
+                </div>
+              </div>
 							<div class="page_single layout_fullwidth_padding">
 
                 <ul class="posts">

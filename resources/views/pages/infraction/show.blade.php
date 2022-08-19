@@ -93,13 +93,25 @@
                               <td>{{ $infraction->phone }}</td>
                           </tr>
                           <tr>
-                              <td>Daerah Irigas</td>
+                              <td>Daerah Irigasi</td>
                               <td>{{ $infraction->di }}</td>
                           </tr>
                           <tr>
                               <td>Jenis Pelanggaran</td>
                               <td>{{ $infraction->jp }}</td>
                           </tr>
+                        @if ($infraction->disposisi_datetime)
+                          <tr>
+                              <td>Ditetapkan</td>
+                              <td style="color: red;">{{ $infraction->disposisi_datetime }}</td>
+                          </tr>
+                        @endif
+                        @if ($infraction->keterangan_disposisi)
+                          <tr>
+                              <td>Keterangan</td>
+                              <td style="color: red;">{{ $infraction->keterangan_disposisi }}</td>
+                          </tr>
+                        @endif
                           <tr>
                               <td>Kordinat</td>
                               <td>{{ $infraction->kordinat }}</td>
@@ -126,7 +138,7 @@
                   <span class="post_author"> <a href="#">{{ $infraction->pelapor_name }}</a></span>
                   <span style="text-transform: uppercase" class="post_comments"><a href="#">{{ $infraction->status }}</a></span>
                 </div>
-                @if ($infraction->sp1)
+                {{-- @if ($infraction->sp1)
                   <a href="{{route('infraction.download', ['id'=>$infraction->id,'type'=> 'sp1'])}}" target="_blank"  class="btn btn--full open-popup">DOWNLOAD SP-1</a>
                 @endif
                 @if ($infraction->sp2)
@@ -134,7 +146,7 @@
                 @endif
                 @if ($infraction->sp3)
                   <a href="{{route('infraction.download', ['id'=>$infraction->id,'type'=> 'sp3'])}}" target="_blank"  class="btn btn--full open-popup">DOWNLOAD SP-3</a>
-                @endif
+                @endif --}}
                 @if ($infraction->bukti_pelanggaran )
                   <a href="{{route('infraction.download', ['id'=>$infraction->id,'type'=> 'bukti_pelanggaran'])}}" target="_blank"  class="btn btn--full open-popup">DOWNLOAD BUKTI PELANGGARAN</a>
                 @endif

@@ -117,7 +117,7 @@ $(document).ready(function () {
 		var nrposts = 10;
 		$('.posts li:lt('+nrposts+')').show();
 		$('#loadMore').click(function () {
-			nrposts= (nrposts+1 <= size_li) ? nrposts+1 : size_li;
+			nrposts= (nrposts+1 <= size_li) ? nrposts+10 : size_li;
 			$('.posts li:lt('+nrposts+')').show();
 			if(nrposts == size_li){
 				$('#loadMore').hide();

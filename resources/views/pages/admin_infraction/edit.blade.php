@@ -210,6 +210,7 @@
                                     <option value="pelanggaran">Pelanggaran</option>
                                     <option value="ditolak">Ditolak</option>
                                     @role('admin')
+                                    <option value="permohonan penindak lanjutan">PERMOHONAN PENINDAK LANJUTAN</option>
                                     <option value="sp1">SP-1</option>
                                     <option value="sp2">SP-2</option>
                                     <option value="sp3">SP-3</option>
@@ -234,6 +235,21 @@
                               </div>
                         
                         @endif
+
+                        @if($infraction->status == 'disposisi') 
+                            <div class="input-group">
+                                <label for="">Keterangan <span>*</span></label>
+                                <div class="input-field @error('keterangan_disposisi') error @enderror">
+                                    {{-- <input type="file" name="bukti_pelanggaran" value="" class="form_input" /> --}}
+                                    <textarea style="border: none;" name="keterangan_disposisi"  required cols="100" rows="10"></textarea>
+                                    <div class="error-mark @error('keterangan_disposisi') error-mark-show @enderror">
+                                        <i class="bx bx-x"></i>
+                                    </div>
+                                </div>
+                              </div>
+                        
+                        @endif
+                        
 
                         
 

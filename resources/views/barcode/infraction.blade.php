@@ -154,10 +154,22 @@
                   <td>Nama</td>
                   <td>{{ $infraction->nama }}</td>
               </tr>
-              <tr>
-                <td>Status</td>
-                <td style="color: red;">{{ $infraction->status }}</td>
-            </tr>
+                <tr>
+                    <td>Status</td>
+                    <td style="color: red;">{{ $infraction->status }}</td>
+                </tr>
+                @if ($infraction->disposisi_datetime)
+                    <tr>
+                        <td>Ditetapkan</td>
+                        <td style="color: red;">{{ $infraction->disposisi_datetime }}</td>
+                    </tr>
+                @endif
+                @if ($infraction->keterangan_disposisi)
+                    <tr>
+                        <td>Keterangan</td>
+                        <td style="color: red;">{{ $infraction->keterangan_disposisi }}</td>
+                    </tr>
+                @endif
               <tr>
                   <td>Alamat</td>
                   <td>{{ $infraction->alamat }}</td>
